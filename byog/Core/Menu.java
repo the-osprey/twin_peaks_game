@@ -5,7 +5,9 @@ import byog.TileEngine.TERenderer;
 import edu.princeton.cs.introcs.StdAudio;
 import edu.princeton.cs.introcs.StdDraw;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
@@ -48,7 +50,8 @@ public class Menu implements Serializable {
 
     // Draw the first menu that users see
     private static void drawMainMenu() {
-        StdAudio.play("/resources/laura_theme.au");
+        playSound("laura_theme.au");
+//        StdAudio.play("/resources/laura_theme.au");
         StdDraw.clear(Color.decode("#15284B"));
         StdDraw.picture(midWidth, midHeight, "/resources/intro.png");
         Font headerFont = new Font("URW Gothic L", Font.BOLD, 40);
@@ -233,5 +236,23 @@ public class Menu implements Serializable {
         // Draw world on screen
         g.playGame(g);
         //return(ourWorld.getWorld());
+    }
+
+    public static synchronized void playSound(final String url) {
+        new Thread(new Runnable() {
+            // The wrapper thread is unnecessary, unless it blocks on the
+            // Clip finishing; see comments.
+            public void run() {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            Main.class.getResourceAsStream("/resources/" + url));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+        }).start();
     }
 }
