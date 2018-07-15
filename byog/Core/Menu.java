@@ -250,7 +250,7 @@ public class Menu implements Serializable {
                     clip.open(inputStream);
                     clip.start();
                 } catch (Exception e) {
-                    System.err.println(e.getMessage()); 
+                    System.err.println(e.getMessage());
                 }
             }
         }).start();
