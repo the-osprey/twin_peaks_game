@@ -31,6 +31,7 @@ public class Game implements Serializable, MouseListener {
     WorldGenerator userWorld;
     WorldGenerator topWorld;
     User user;
+    Enemy enemy;
     long seed = 0;
     long otherRoomSeed;
     boolean isTopRoom = false;
@@ -253,6 +254,7 @@ public class Game implements Serializable, MouseListener {
         isPlaying = true;
         if (!g.loading) {
             g.user = placeUser();
+            g.enemy = placeEnemy();
             //System.out.println(g.user.position.x);
             //System.out.println(g.user.position.y);
             userWorld.getWorld()[g.user.getX()][g.user.getY()] = g.user.getTile();
@@ -394,6 +396,13 @@ public class Game implements Serializable, MouseListener {
         int size = numPassTiles.size();
         int randomTileIndex = rand.nextInt(size);
         return new User(userWorld.getPASSABLETILELIST().get(randomTileIndex));
+    }
+
+    private Enemy placeEnemy() {
+        ArrayList<Position> numPassTiles = userWorld.getPASSABLETILELIST();
+        int size = numPassTiles.size();
+        int randomTileIndex = rand.nextInt(size);
+        return new Enemy(userWorld.getPASSABLETILELIST().get(randomTileIndex));
     }
 
     public void clickMove() {

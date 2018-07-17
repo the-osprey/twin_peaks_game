@@ -11,6 +11,9 @@ public class User implements Serializable {
     //number of lives?
     Position position;
 
+    public User(){
+    }
+
     public User(Position p) {
         this.position = p;
     }
